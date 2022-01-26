@@ -1,0 +1,183 @@
+@media screen and (min-width: 450px){
+    #menuRequest{
+        display: none;
+    }
+}
+
+@media screen and (max-width: 450px){
+    #request #metodo{
+        display: none;
+    }
+    #request #host{
+        display: none;
+    }
+    #request #send{
+        display: none;
+    }
+    body #request #cabecalhoSendRequest{
+        justify-content: flex-end;
+    }
+    #menuRequest {
+        margin-right: 20px;
+        margin-left: 25px;
+    }
+}
+
+@media screen and (min-width: 740px){
+    #favoritosButton{
+        display: none;
+    }
+}
+
+@media screen and (max-width: 740px){
+    #request #favoritos{
+        width: 0px;
+    }
+    #request #sendRequest{
+        width: 100%;
+    }
+    #request #cabecalhoSendRequest{
+        justify-content: space-evenly;
+    }
+    #request #metodo{
+        margin-left: 0px;
+    }
+    #request #send{
+        margin-right: 0px;
+    }
+}
+
+*{
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+    text-decoration: none;
+}
+body{
+    overflow-x: hidden;
+}
+#request{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+}
+#favoritos{
+    width: 200px;
+    height: 100vh;
+}
+#sendRequest{
+    width: calc(100% - 200px);
+    height: 100vh;
+}
+#cabecalhoFavoritos{
+    height: 50px;
+    width: 100%;
+    background-color: rgb(117, 117, 255);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#cabecalhoFavoritos p{
+    margin-left: 20px;
+    font-size: 18px;
+    color: white;
+}
+#cabecalhoFavoritos svg{
+    margin-right: 20px;
+    font-size: 18px;
+    color: white;
+    cursor: pointer;
+}
+#conteudoFavoritos{
+    width: 200px;
+    height: calc(100vh - 50px);
+    background-color: #333;
+}
+
+
+#cabecalhoSendRequest{
+    width: 100%;
+    height: 50px;
+    background-color: #b9b9b9;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+#metodo{
+    margin-left: 40px;
+    font-size: 14px;
+}
+#metodo select{
+    padding: 5px;
+    background-color: #333;
+    border: none;
+    cursor: pointer;
+    color: rgb(190, 190, 190);
+}
+#metodo select:focus{
+    outline: none;
+}
+#host input{
+    padding: 6px;
+    border: none;
+    background-color: #333;
+    color: rgb(190, 190, 190);
+}
+#host input:focus{
+    outline: none;
+}
+#send{
+    margin-right: 60px;
+}
+#send button{
+    height: 35px;
+    width: 100px;
+    border: none;
+    background-color: #333;
+    color: rgb(190, 190, 190);
+    cursor: pointer;
+}
+#favoritosButton svg{
+    color: #333;
+    cursor: pointer;
+}
+#menuRequest svg{
+    cursor: pointer;
+    color: #333;
+}
+
+#adicionais{
+    width: 100%;
+    height: 250px;
+    background-color: #242424;
+    border-bottom: 1px solid #323232;
+}
+#metodosAdicionais{
+    width: 100%;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    background-color: #1a1a1a;
+}
+#metodosAdicionais li{
+    width: 100px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+}
+#metodosAdicionais li:first-child{
+    color: #b3b3b3;
+}
+
+
+#conteudoSendRequest{
+    width: 100%;
+    height: calc(100vh - 301px);
+    background-color: #28211c;
+    overflow-x: auto;
+    overflow-y: auto;
+}

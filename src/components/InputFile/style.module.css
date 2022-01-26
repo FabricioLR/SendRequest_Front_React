@@ -1,0 +1,27 @@
+@media screen and (max-width: 450px) {
+    #inputFile .inputFile input{
+        width: 110px;
+    }
+    #inputFiles .key_value p{
+        width: 131px;
+    }
+}
+
+#inputFile{
+    width: 100%;
+    height: 220px;
+}
+.inputFile{
+    margin: 10px 10px 10px 0px;
+    display: flex;
+    align-items: center;
+}
+.inputFile input{
+    margin-left: 10px;
+    padding: 5px;
+}
+.inputFile svg{
+    margin-left: 10px;
+    color: white;
+    cursor: pointer;
+}
