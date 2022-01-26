@@ -63,8 +63,6 @@ function Home() {
                     state.header.data.map((value) => headers[value.key] = value.value)
                     state.body.data.map((value) => data[value.key] = value.value)
 
-                    console.log(headers, data)
-
                     axios.post(host, data, { headers })
                     .then((response) => dispatch({ type: ResponseTypes.ADD_RESPONSE, data: response.data}))
                     .catch((error) => dispatch({ type: ResponseTypes.ADD_RESPONSE, data: error.response}))
