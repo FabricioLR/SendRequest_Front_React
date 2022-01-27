@@ -1,19 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import style from "./style.module.css"
 import styleMenuRequest from "../../components/MenuRequest/style.module.css"
-import { GrAdd } from "react-icons/gr"
 import { FaHeart } from "react-icons/fa"
 import { AiOutlineMenu } from "react-icons/ai"
+import { BiSave } from "react-icons/bi"
 import InputHeaders from '../../components/InputHeaders/InputHeaders';
 import InputBody from '../../components/InputBody/InputBody';
 import InputFile from '../../components/InputFile/InputFile';
 import axios from "axios"
 import { useDispatch, useSelector } from 'react-redux';
-import { Body } from "../../storage/ducks/body/types"
-import { Header } from "../../storage/ducks/header/types"
+import { Body, BodyTypes } from "../../storage/ducks/body/types"
+import { Header, HeaderTypes } from "../../storage/ducks/header/types"
 import { ResponseTypes } from '../../storage/ducks/response/types';
 import ReactJson from 'react-json-view'
 import MenuRequest from "../../components/MenuRequest/MenuRequest"
+import { FavoriteTypes, Favorite } from '../../storage/ducks/favorites/types';
+import MenuFavorites from "../../components/MenuFavorites/MenuFavorites"
+import styleMenuFavorites from "../../components/MenuFavorites/style.module.css"
 
 type StateProps = {
     header: {
@@ -24,6 +27,9 @@ type StateProps = {
     }
     response: {
         data: any
+    },
+    favorites: {
+        data: Favorite[]
     }
 }
 
@@ -52,61 +58,50 @@ function Home() {
         if (host !== ""){
             const headers: any = {}
             const data: any = {}
+            Object.getOwnPropertyNames(headers).forEach(function (prop) {
+                delete headers[prop];
+            })
+            Object.getOwnPropertyNames(data).forEach(function (prop) {
+                delete data[prop];
+            })
+            state.header.data.map((value) => headers[value.key] = value.value)
+            state.body.data.map((value) => data[value.key] = value.value)
             switch (metodo) {
                 case "POST":
-                    Object.getOwnPropertyNames(headers).forEach(function (prop) {
-                        delete headers[prop];
-                    })
-                    Object.getOwnPropertyNames(data).forEach(function (prop) {
-                        delete data[prop];
-                    })
-                    state.header.data.map((value) => headers[value.key] = value.value)
-                    state.body.data.map((value) => data[value.key] = value.value)
-
-                    axios.post(host, data, { headers })
-                    .then((response) => dispatch({ type: ResponseTypes.ADD_RESPONSE, data: response.data}))
-                    .catch((error) => dispatch({ type: ResponseTypes.ADD_RESPONSE, data: error.response}))
+                    try {
+                        axios.post(host, data, { headers })
+                        .then((response) => dispatch({ type: ResponseTypes.ADD_RESPONSE, data: response.data}))
+                        .catch((error) => dispatch({ type: ResponseTypes.ADD_RESPONSE, data: error.response}))
+                    } catch (error) {
+                        dispatch({ type: ResponseTypes.ADD_RESPONSE, data: error})
+                    }
                     return
                 case "GET":
-                    Object.getOwnPropertyNames(headers).forEach(function (prop) {
-                        delete headers[prop];
-                    })
-                    Object.getOwnPropertyNames(data).forEach(function (prop) {
-                        delete data[prop];
-                    })
-                    state.header.data.map((value) => headers[value.key] = value.value)
-
-                    axios.get(host, { headers })
-                    .then((response) => dispatch({ type: ResponseTypes.ADD_RESPONSE, data: response.data}))
-                    .catch((error) => dispatch({ type: ResponseTypes.ADD_RESPONSE, data: error.response}))
+                    try {
+                        axios.get(host, { headers })
+                        .then((response) => dispatch({ type: ResponseTypes.ADD_RESPONSE, data: response.data}))
+                        .catch((error) => dispatch({ type: ResponseTypes.ADD_RESPONSE, data: error.response}))
+                    } catch (error) {
+                        dispatch({ type: ResponseTypes.ADD_RESPONSE, data: error})
+                    }
                     return
                 case "PUT":
-                    Object.getOwnPropertyNames(headers).forEach(function (prop) {
-                        delete headers[prop];
-                    })
-                    Object.getOwnPropertyNames(data).forEach(function (prop) {
-                        delete data[prop];
-                    })
-                    state.header.data.map((value) => headers[value.key] = value.value)
-                    state.body.data.map((value) => data[value.key] = value.value)
-
-                    axios.put(host, data, { headers })
-                    .then((response) => dispatch({ type: ResponseTypes.ADD_RESPONSE, data: response.data}))
-                    .catch((error) => dispatch({ type: ResponseTypes.ADD_RESPONSE, data: error.response}))
+                    try {
+                        axios.put(host, data, { headers })
+                        .then((response) => dispatch({ type: ResponseTypes.ADD_RESPONSE, data: response.data}))
+                        .catch((error) => dispatch({ type: ResponseTypes.ADD_RESPONSE, data: error.response}))
+                    } catch (error) {
+                        dispatch({ type: ResponseTypes.ADD_RESPONSE, data: error})
+                    }
                     return
                 case "DELETE":
-                    Object.getOwnPropertyNames(headers).forEach(function (prop) {
-                        delete headers[prop];
-                    })
-                    Object.getOwnPropertyNames(data).forEach(function (prop) {
-                        delete data[prop];
-                    })
-                    state.header.data.map((value) => headers[value.key] = value.value)
-                    state.body.data.map((value) => data[value.key] = value.value)
-
-                    axios.delete(host, { headers })
-                    .then((response) => dispatch({ type: ResponseTypes.ADD_RESPONSE, data: response.data}))
-                    .catch((error) => dispatch({ type: ResponseTypes.ADD_RESPONSE, data: error.response}))
+                    try {
+                        axios.delete(host, { headers })
+                        .then((response) => dispatch({ type: ResponseTypes.ADD_RESPONSE, data: response.data}))
+                        .catch((error) => dispatch({ type: ResponseTypes.ADD_RESPONSE, data: error.response}))
+                    } catch (error) {
+                        dispatch({ type: ResponseTypes.ADD_RESPONSE, data: error})
+                    }
                     return
                 default:
                     return
@@ -115,19 +110,41 @@ function Home() {
     }
 
     function ShowMenuRequest(){
+        document.getElementById(styleMenuFavorites.menuFavorites)?.classList.remove(styleMenuFavorites.active)
         document.getElementById(styleMenuRequest.menuRequest)?.classList.toggle(styleMenuRequest.active)
+    }
+
+    function Save(){
+        if (host !== ""){
+            dispatch({ type: FavoriteTypes.SAVE, metodo, body: state.body.data, url: host, headers: state.header.data })
+        }
+    }
+
+    function ShowMenuFavorites(){
+        document.getElementById(styleMenuRequest.menuRequest)?.classList.remove(styleMenuRequest.active)
+        document.getElementById(styleMenuFavorites.menuFavorites)?.classList.toggle(styleMenuFavorites.active)
+    }
+
+    function LoadFavorite(id: string){
+        for (const value of state.favorites.data){
+            if (value.id === id){
+              //  (document.querySelector("#" + style.host + " > input") as HTMLInputElement).value = value.id
+                (document.querySelector("#" + style.metodo) as HTMLSelectElement).value = value.metodo
+                dispatch({ type: BodyTypes.CHANGE_KEYS, data: value.body})
+                dispatch({ type: HeaderTypes.CHANGE_KEYS, data: value.headers})
+            }
+        }
     }
 
     return (
         <div id={style.request}>
             <div id={style.favoritos}>
                 <div id={style.cabecalhoFavoritos}>
-                    <p>Favoritos</p>
-                    <GrAdd/>
+                    <p>Favorites</p>
                 </div>
-                <div id={style.conteudoFavoritos}>
-                    
-                </div>
+                <ul id={style.conteudoFavoritos}>
+                    {state.favorites.data.map((value) => <li onClick={() => LoadFavorite(value.id)}><p>{value.metodo}</p><p>{value.url}</p></li>)}
+                </ul>
             </div>
             <div id={style.sendRequest}>
                 <div id={style.cabecalhoSendRequest}>
@@ -144,15 +161,17 @@ function Home() {
                     </div>
                     <div id={style.send}>
                         <button onClick={SendRequest}>Send</button>
+                        <BiSave onClick={Save}/>
                     </div>
                     <div id={style.favoritosButton}>
-                        <FaHeart/>
+                        <FaHeart onClick={ShowMenuFavorites}/>
                     </div>
                     <div id={style.menuRequest}>
                         <AiOutlineMenu onClick={ShowMenuRequest}/>
                     </div>
                 </div>
                 <MenuRequest SendRequest={SendRequest} setHost={setHost} setMetodo={setMetodo}/>
+                <MenuFavorites LoadFavorite={LoadFavorite}/>
                 <div id={style.adicionais}>
                     <ul id={style.metodosAdicionais}>
                         {(Metodos[metodo] as []).map((nome) => <li key={nome} id={nome} onClick={(e: any) => {

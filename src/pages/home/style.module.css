@@ -11,7 +11,7 @@
     #request #host{
         display: none;
     }
-    #request #send{
+    #request #send button{
         display: none;
     }
     body #request #cabecalhoSendRequest{
@@ -31,7 +31,7 @@
 
 @media screen and (max-width: 740px){
     #request #favoritos{
-        width: 0px;
+        display: none;
     }
     #request #sendRequest{
         width: 100%;
@@ -65,6 +65,20 @@ body, html{
     width: 200px;
     height: 100vh;
 }
+#conteudoFavoritos{
+    overflow-y: auto;
+}
+#conteudoFavoritos li{
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    color: #b3b3b3;
+    cursor: pointer;
+}
+#conteudoFavoritos li:hover{
+    color: #999999;
+}
+
 #sendRequest{
     width: calc(100% - 200px);
     height: 100vh;
@@ -128,6 +142,8 @@ body, html{
 }
 #send{
     margin-right: 60px;
+    display: flex;
+    align-items: center;
 }
 #send button{
     height: 35px;
@@ -136,6 +152,14 @@ body, html{
     background-color: #333;
     color: rgb(190, 190, 190);
     cursor: pointer;
+}
+#send svg{
+    margin-left: 15px;
+    transform: scale(1.5);
+    cursor: pointer;
+}
+#favoritosButton{
+    margin-left: 25px;
 }
 #favoritosButton svg{
     color: #333;
