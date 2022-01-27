@@ -19,7 +19,7 @@ function MenuFavorites(props: MenuFavoritesProps) {
     return (
         <div id={style.menuFavorites}>
             <ul>
-                {state.favorites.data.map((value) => <li onClick={() => props.LoadFavorite(value.id)}><p>{value.metodo}</p><p>{value.url}</p></li>)}
+                {state.favorites.data.map((value) => <li key={value.id} onClick={() => props.LoadFavorite(value.id)}><p>{value.metodo}</p><p>{value.url}</p></li>)}
             </ul>
         </div>
     )

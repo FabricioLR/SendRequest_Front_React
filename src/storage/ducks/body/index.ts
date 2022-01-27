@@ -12,7 +12,7 @@ const reducer: Reducer<BodyState> = (state = INITIAL_STATE, action) => {
         case BodyTypes.REMOVE_KEY:
             return { ...state, data: [...state.data.slice(0, action.index), ...state.data.slice(action.index + 1)] }
         case BodyTypes.CHANGE_KEYS:
-            return { ...state, data: [action.data] }
+            return { ...state, data: action.data }
         default:
             return state
     }

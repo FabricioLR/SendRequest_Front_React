@@ -12,7 +12,7 @@ const reducer: Reducer<HeaderState> = (state = INITIAL_STATE, action) => {
         case HeaderTypes.REMOVE_KEY:
             return { ...state, data: [...state.data.slice(0, action.index), ...state.data.slice(action.index + 1)] }
         case HeaderTypes.CHANGE_KEYS:
-            return { ...state, data: [action.data] }
+            return { ...state, data: action.data }
         default:
             return state
     }

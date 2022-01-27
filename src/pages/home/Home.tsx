@@ -128,8 +128,11 @@ function Home() {
     function LoadFavorite(id: string){
         for (const value of state.favorites.data){
             if (value.id === id){
-              //  (document.querySelector("#" + style.host + " > input") as HTMLInputElement).value = value.id
-                (document.querySelector("#" + style.metodo) as HTMLSelectElement).value = value.metodo
+                const host = document.querySelector("#" + style.host + " > input") as HTMLInputElement
+                host.value = value.url
+                const metodo = document.querySelector("#" + style.metodo + " > select") as HTMLSelectElement
+                metodo.value = value.metodo
+                console.log(value.body, value.headers)
                 dispatch({ type: BodyTypes.CHANGE_KEYS, data: value.body})
                 dispatch({ type: HeaderTypes.CHANGE_KEYS, data: value.headers})
             }
@@ -143,7 +146,7 @@ function Home() {
                     <p>Favorites</p>
                 </div>
                 <ul id={style.conteudoFavoritos}>
-                    {state.favorites.data.map((value) => <li onClick={() => LoadFavorite(value.id)}><p>{value.metodo}</p><p>{value.url}</p></li>)}
+                    {state.favorites.data.map((value) => <li key={value.id} onClick={() => LoadFavorite(value.id)}><p>{value.metodo}</p><p>{value.url}</p></li>)}
                 </ul>
             </div>
             <div id={style.sendRequest}>
